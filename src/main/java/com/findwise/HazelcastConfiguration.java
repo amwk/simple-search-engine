@@ -1,4 +1,4 @@
-package pl.awlodarz.simplesearchengine;
+package com.findwise;
 
 import com.hazelcast.config.Config;
 import com.hazelcast.config.EvictionPolicy;

@@ -8,7 +8,7 @@
 		<version>2.2.5.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>pl.awlodarz</groupId>
+	<groupId>com.findwise</groupId>
 	<artifactId>simple-search-engine</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>simple-search-engine</name>
