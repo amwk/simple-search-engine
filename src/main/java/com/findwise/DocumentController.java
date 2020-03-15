@@ -21,6 +21,8 @@ public class DocumentController {
     private final SearchEngine searchEngine;
     private final AtomicLong counter = new AtomicLong(1);
 
+    public static final String DOCUMENTS = "documents";
+
     private static final Logger log = LoggerFactory.getLogger(DocumentController.class);
 
     @Autowired
@@ -39,7 +41,7 @@ public class DocumentController {
     public @ResponseBody
     Map<String, String> addDocuments(@RequestBody List<String> documentList) {
 
-        Map<String, String> documentsMap = hazelcastInstance.getMap("documents");
+        Map<String, String> documentsMap = hazelcastInstance.getMap(DOCUMENTS);
 
         documentList.forEach(documentContent -> {
             String documentId = String.join("", "document", Long.toString(counter.getAndIncrement()));
@@ -54,13 +56,13 @@ public class DocumentController {
     @GetMapping(value = "/documents", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     Map<String, String> getAllDocuments() {
-        return hazelcastInstance.getMap("documents");
+        return hazelcastInstance.getMap(DOCUMENTS);
     }
 
     @PostMapping(value = "/document")
     public @ResponseBody
     String addDocument(@RequestBody String documentContent) {
-        Map<String, String> documentsMap = hazelcastInstance.getMap("documents");
+        Map<String, String> documentsMap = hazelcastInstance.getMap(DOCUMENTS);
         String documentId = String.join("", "document", Long.toString(counter.getAndIncrement()));
 
         documentsMap.put(documentId, documentContent);
@@ -72,14 +74,14 @@ public class DocumentController {
     @GetMapping(value = "/document/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     String getDocument(@RequestParam String id) {
-        Map<String, String> documentsMap = hazelcastInstance.getMap("documents");
+        Map<String, String> documentsMap = hazelcastInstance.getMap(DOCUMENTS);
         return documentsMap.get(id);
     }
 
     @PutMapping(value = "/document/{id}")
     public @ResponseBody
     String updateDocument(@RequestParam String id, @RequestBody String body) {
-        Map<String, String> documentsMap = hazelcastInstance.getMap("documents");
+        Map<String, String> documentsMap = hazelcastInstance.getMap(DOCUMENTS);
         documentsMap.replace(id, body);
         return "Document has been updated!";
     }
@@ -87,7 +89,7 @@ public class DocumentController {
     @DeleteMapping(value = "/document/{id}")
     public @ResponseBody
     String deleteDocument(@RequestParam String id) {
-        Map<String, String> documentsMap = hazelcastInstance.getMap("documents");
+        Map<String, String> documentsMap = hazelcastInstance.getMap(DOCUMENTS);
         documentsMap.remove(id);
         return "Document has been deleted!";
     }

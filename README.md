@@ -6,6 +6,11 @@ addDocuments.http - this file contain REST request for adding new documents
 getAllDocuments.http - retrieve all added documents - handy for verification which documents are present
 search.http - this file contain requests for searching following terms: "brown" and "fox"
 
+There is also possibility to add/ update or remove single document
+
+Project utilize Swagger for API documentation - after spinning up Spring Boot it can be found under url : http://localhost:8080/swagger-ui.html
+
+
 # Example
 The following documents are indexed:
 Document 1: “the brown fox jumped over the brown dog”   
