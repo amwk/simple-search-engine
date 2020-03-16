@@ -2,9 +2,12 @@
 
 Basic functionality is provided via REST endpoints. Some sample requests can be found under ./request directory
 
-addDocuments.http - this file contain REST request for adding new documents. 
-getAllDocuments.http - retrieve all added documents - handy for verification which documents are present. 
-search.http - this file contain requests for searching following terms: "brown" and "fox"  
+addDocuments.http - this file contain REST request for adding new documents.  
+
+getAllDocuments.http - retrieve all added documents - handy for verification which documents are present.  
+
+search.http - this file contain requests for searching following terms: "brown" and "fox"   
+
 
 There is also possibility to add/ update or remove single document
 
