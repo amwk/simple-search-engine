@@ -2,6 +2,7 @@ package com.findwise;
 
 import com.hazelcast.core.HazelcastInstance;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +32,14 @@ public class DocumentController {
         this.searchEngine = searchEngine;
     }
 
+    @ApiOperation("Search for given term")
     @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     List<IndexEntry> search(@RequestParam String searchTerm) {
         return searchEngine.search(searchTerm);
     }
 
+    @ApiOperation("Add a list of documents")
     @PostMapping(value = "/documents")
     public @ResponseBody
     Map<String, String> addDocuments(@RequestBody List<String> documentList) {
@@ -53,12 +56,14 @@ public class DocumentController {
         return documentsMap;
     }
 
+    @ApiOperation("Get all of documents")
     @GetMapping(value = "/documents", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     Map<String, String> getAllDocuments() {
         return hazelcastInstance.getMap(DOCUMENTS);
     }
 
+    @ApiOperation("Add a single document")
     @PostMapping(value = "/document")
     public @ResponseBody
     String addDocument(@RequestBody String documentContent) {
@@ -71,14 +76,16 @@ public class DocumentController {
         return "Document has been added!";
     }
 
-    @GetMapping(value = "/document/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation("Get a single document")
+    @GetMapping(value = "/document", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     String getDocument(@RequestParam String id) {
         Map<String, String> documentsMap = hazelcastInstance.getMap(DOCUMENTS);
         return documentsMap.get(id);
     }
 
-    @PutMapping(value = "/document/{id}")
+    @ApiOperation("Update a single document")
+    @PutMapping(value = "/document")
     public @ResponseBody
     String updateDocument(@RequestParam String id, @RequestBody String body) {
         Map<String, String> documentsMap = hazelcastInstance.getMap(DOCUMENTS);
@@ -86,11 +93,21 @@ public class DocumentController {
         return "Document has been updated!";
     }
 
-    @DeleteMapping(value = "/document/{id}")
+    @ApiOperation("Delete a single document")
+    @DeleteMapping(value = "/document")
     public @ResponseBody
     String deleteDocument(@RequestParam String id) {
         Map<String, String> documentsMap = hazelcastInstance.getMap(DOCUMENTS);
         documentsMap.remove(id);
         return "Document has been deleted!";
+    }
+
+    @ApiOperation("Delete a single document")
+    @DeleteMapping(value = "/documents")
+    public @ResponseBody
+    String deleteDocuments() {
+        Map<String, String> documentsMap = hazelcastInstance.getMap(DOCUMENTS);
+        documentsMap.clear();
+        return "All documents has been deleted!";
     }
 }
