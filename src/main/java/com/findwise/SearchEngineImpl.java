@@ -84,7 +84,7 @@ public class SearchEngineImpl implements SearchEngine {
         return Math.log((double)allWordsCount / (double)termCount);
     }
 
-    public double tf(String documentId, String term) {
+    private double tf(String documentId, String term) {
         Map<String, String> documentMap = hazelcastInstance.getMap(DOCUMENTS);
 
         String [] document = documentMap.get(documentId).trim().split("\\s+");
